@@ -10,8 +10,8 @@ android {
         
         defaultConfig {
                 minSdk 26
-                versionCode 1000
-                versionName "1.0.00"
+                versionCode 103
+                versionName "1.0.3"
         }
         
         buildTypes {
@@ -41,10 +41,11 @@ dependencies {
         implementation "com.google.android.material:material:1.12.0"
         implementation "com.google.code.gson:gson:2.10.1"
         
-        implementation "com.blankj:utilcodex:1.31.1"
-        implementation 'com.github.florent37:viewanimator:1.1.0'
-        implementation "com.karumi:dexter:6.2.3"
-        implementation "com.tapadoo.android:alerter:7.0.1"
+        api "com.blankj:utilcodex:1.31.1"
+        api 'com.github.florent37:viewanimator:1.1.0'
+        api "com.karumi:dexter:6.2.3"
+        api "com.tapadoo.android:alerter:7.0.1"
+        
         implementation "org.jetbrains.anko:anko:0.10.8"
         implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2"
         implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
@@ -62,7 +63,7 @@ afterEvaluate {
                                 
                                 groupId = "com.github.andfisbr"
                                 artifactId = "af-extensions"
-                                version = "1.0.0"
+                                version = "1.0.3"
                         }
                 }
         }
