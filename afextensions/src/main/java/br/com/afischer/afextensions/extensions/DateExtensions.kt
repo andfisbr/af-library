@@ -1,4 +1,4 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

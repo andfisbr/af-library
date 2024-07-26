@@ -1,15 +1,15 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import androidx.core.content.res.ResourcesCompat
-import br.com.afischer.afextensions.application.App
+import br.com.afischer.afextensions.AFExtApp
 import java.util.Random
 
 
-fun Int.asDrawable(): Drawable? = ResourcesCompat.getDrawable(App().resources, this, null)
-fun Int.asColor(): Int = ResourcesCompat.getColor(App().resources, this, null)
-fun Int.asString(): String = App().getString(this)
+fun Int.asDrawable(): Drawable? = ResourcesCompat.getDrawable(AFExtApp().resources, this, null)
+fun Int.asColor(): Int = ResourcesCompat.getColor(AFExtApp().resources, this, null)
+fun Int.asString(): String = AFExtApp().getString(this)
 
 
 

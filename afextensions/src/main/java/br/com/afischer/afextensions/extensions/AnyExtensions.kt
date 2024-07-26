@@ -1,4 +1,4 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -6,22 +6,16 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Base64
 import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.util.zip.Deflater
-import java.util.zip.Inflater
 
 
 fun Any.toJson(): String = Gson().toJson(this)

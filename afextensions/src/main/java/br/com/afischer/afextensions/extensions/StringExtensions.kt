@@ -1,9 +1,9 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 
 import android.text.*
 import android.util.Base64
-import br.com.afischer.afextensions.application.App
+import br.com.afischer.afextensions.AFExtApp
 import br.com.afischer.afextensions.utils.Consts
 import org.json.JSONArray
 import org.json.JSONException
@@ -438,7 +438,7 @@ fun String.group(): String {
 
 
 
-fun String.identifier(): Int = App().resources.getIdentifier(this, "drawable", App().packageName)
+fun String.identifier(): Int = AFExtApp().resources.getIdentifier(this, "drawable", AFExtApp().packageName)
 
 
 

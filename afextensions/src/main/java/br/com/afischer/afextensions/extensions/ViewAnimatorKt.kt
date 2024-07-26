@@ -1,4 +1,4 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import android.view.*
 import com.github.florent37.viewanimator.*

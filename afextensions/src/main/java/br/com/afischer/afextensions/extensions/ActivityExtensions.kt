@@ -1,4 +1,4 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import android.app.Activity
 import android.app.ActivityManager
@@ -35,6 +35,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import br.com.afischer.afextensions.R
 import br.com.afischer.afextensions.enums.AlerterType
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport

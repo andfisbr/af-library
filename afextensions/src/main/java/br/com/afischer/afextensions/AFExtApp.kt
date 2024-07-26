@@ -1,9 +1,9 @@
-package br.com.afischer.afextensions.application
+package br.com.afischer.afextensions
 
 import android.app.Application
 
 
-object App {
+object AFExtApp {
         
         private lateinit var instance: Application
         

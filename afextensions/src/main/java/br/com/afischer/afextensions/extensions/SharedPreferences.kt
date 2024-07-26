@@ -1,4 +1,4 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty

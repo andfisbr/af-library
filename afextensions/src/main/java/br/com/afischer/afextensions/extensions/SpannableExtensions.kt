@@ -1,4 +1,4 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 
 import android.graphics.Color
@@ -130,9 +130,9 @@ fun CharSequence.url(url: String) = span(this, URLSpan(url))
 
 fun String.spans(): SpannableStringBuilder {
         val styles = mutableMapOf(
-                "<b>([^<]*)</b>" to Style(StyleSpan(android.graphics.Typeface.BOLD), 4, 3),
+                "<b>([^<]*)</b>" to Style(StyleSpan(BOLD), 4, 3),
                 "<u>([^<]*)</u>" to Style(UnderlineSpan(), 4, 3),
-                "<i>([^<]*)</i>" to Style(StyleSpan(android.graphics.Typeface.ITALIC), 4, 3),
+                "<i>([^<]*)</i>" to Style(StyleSpan(ITALIC), 4, 3),
                 "<fs6>([^<]*)</fs>" to Style(AbsoluteSizeSpan(6.dpToPx()), 5, 5),
                 "<fs8>([^<]*)</fs>" to Style(AbsoluteSizeSpan(8.dpToPx()), 5, 5),
                 "<fs10>([^<]*)</fs>" to Style(AbsoluteSizeSpan(10.dpToPx()), 5, 6),

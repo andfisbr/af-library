@@ -1,9 +1,11 @@
-package br.com.afischer.afextensions
+package br.com.afischer.afextensions.extensions
 
 import android.Manifest
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -18,12 +20,16 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.blankj.utilcode.util.AppUtils
-import org.jetbrains.anko.activityManager
-import org.jetbrains.anko.browse
-import org.jetbrains.anko.notificationManager
+import br.com.afischer.afextensions.AFExtUtils
+import br.com.afischer.afextensions.R
 import javax.crypto.Cipher
 
+
+val Context.activityManager: ActivityManager
+        get() = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+val Context.notificationManager: NotificationManager
+        get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 inline var Context.sleepDuration: Int
         @RequiresPermission(Manifest.permission.WRITE_SETTINGS)
@@ -50,6 +56,8 @@ inline var Context.sleepDuration: Int
 
 
 
+
+
 fun Context.asActivity(): Activity = when (this) {
         is Activity -> this
         is ContextWrapper -> baseContext as Activity
@@ -62,6 +70,23 @@ fun Context.asFragmentActivity(): FragmentActivity = when (this) {
         is Activity -> throw IllegalStateException("Context $this NOT supported Activity")
         is ContextWrapper -> baseContext as FragmentActivity
         else -> throw IllegalStateException("Context $this NOT contains activity!")
+}
+
+
+fun Context.browse(url: String, newTask: Boolean = false): Boolean {
+        return try {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                if (newTask) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                startActivity(intent)
+                true
+
+        } catch (ex: ActivityNotFoundException) {
+                ex.printStackTrace()
+                false
+        }
 }
 
 
@@ -171,7 +196,7 @@ fun Context.share(message: String = "") {
 
 
 fun Context.telegram(id: String) {
-        if (!AppUtils.isAppInstalled("org.telegram.messenger")) {
+        if (!AFExtUtils.isAppInstalled("org.telegram.messenger")) {
                 Toast.makeText(this, R.string.telegram_not_installed, Toast.LENGTH_SHORT).show()
         
                 try {
@@ -190,7 +215,7 @@ fun Context.telegram(id: String) {
 
 
 fun Context.whatsapp(phone: String = "", message: String = "") {
-        if (!AppUtils.isAppInstalled("com.whatsapp")) {
+        if (!AFExtUtils.isAppInstalled("com.whatsapp")) {
                 Toast.makeText(this, "WhatsApp não está instalado", Toast.LENGTH_SHORT).show()
 
                 try {
