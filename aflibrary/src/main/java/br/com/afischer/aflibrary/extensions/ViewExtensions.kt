@@ -12,6 +12,14 @@ import com.github.florent37.viewanimator.ViewAnimator
 
 
 
+fun View.animateWithAlpha(start: Float, end: Float, duration: Long = 700) {
+        ViewAnimator.animate(this)
+                .alpha(start, end)
+                .duration(duration)
+                .start()
+}
+
+
 fun View.asRect(): Rect {
         val l = IntArray(2)
 
@@ -56,6 +64,18 @@ fun View.hideIf(condition: Boolean, gone: Boolean = true) {
                 this.hide(gone)
         } else {
                 this.show()
+        }
+}
+
+
+fun View.hideWithAnimation(duration: Long = 700) {
+        if (this.isShown) {
+                ViewAnimator.animate(this)
+                        .alpha(1f, 0f)
+                        .translationY(0f, 1000f)
+                        .duration(duration)
+                        .onStop { this.hide() }
+                        .start()
         }
 }
 
@@ -105,6 +125,19 @@ fun View.showIf(condition: Boolean = true, gone: Boolean = true) {
                 this.show()
         } else {
                 this.hide(gone)
+        }
+}
+
+
+fun View.showWithAnimation(duration: Long = 700) {
+        if (!this.isShown) {
+                ViewAnimator.animate(this)
+                        .alpha(0f, 1f)
+                        .translationY(1000f, 0f)
+                        .duration(duration)
+                        .onStart { this.show() }
+                        .decelerate()
+                        .start()
         }
 }
 
