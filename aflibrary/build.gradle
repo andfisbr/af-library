@@ -10,8 +10,8 @@ android {
         
         defaultConfig {
                 minSdk 26
-                versionCode 105
-                versionName "1.0.5"
+                versionCode 102
+                versionName "1.0.2"
         }
         
         buildTypes {
@@ -60,7 +60,7 @@ afterEvaluate {
                                 
                                 groupId = "com.github.andfisbr"
                                 artifactId = "af-library"
-                                version = "1.0.5"
+                                version = "1.0.2"
                         }
                 }
         }
