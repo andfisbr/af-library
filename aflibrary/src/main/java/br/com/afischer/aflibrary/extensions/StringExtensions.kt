@@ -3,7 +3,7 @@ package br.com.afischer.aflibrary.extensions
 
 import android.text.*
 import android.util.Base64
-import br.com.afischer.aflibrary.AFApp
+import br.com.afischer.aflibrary.AFLibraryApp
 import br.com.afischer.aflibrary.utils.Consts
 import org.json.JSONArray
 import org.json.JSONException
@@ -438,7 +438,7 @@ fun String.group(): String {
 
 
 
-fun String.identifier(): Int = AFApp().resources.getIdentifier(this, "drawable", AFApp().packageName)
+fun String.identifier(): Int = AFLibraryApp().resources.getIdentifier(this, "drawable", AFLibraryApp().packageName)
 
 
 

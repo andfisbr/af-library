@@ -20,7 +20,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import br.com.afischer.aflibrary.AFUtils
+import br.com.afischer.aflibrary.AFLibraryUtils
 import br.com.afischer.aflibrary.R
 import javax.crypto.Cipher
 
@@ -196,7 +196,7 @@ fun Context.share(message: String = "") {
 
 
 fun Context.telegram(id: String) {
-        if (!AFUtils.isAppInstalled("org.telegram.messenger")) {
+        if (!AFLibraryUtils.isAppInstalled("org.telegram.messenger")) {
                 Toast.makeText(this, R.string.telegram_not_installed, Toast.LENGTH_SHORT).show()
         
                 try {
@@ -215,7 +215,7 @@ fun Context.telegram(id: String) {
 
 
 fun Context.whatsapp(phone: String = "", message: String = "") {
-        if (!AFUtils.isAppInstalled("com.whatsapp")) {
+        if (!AFLibraryUtils.isAppInstalled("com.whatsapp")) {
                 Toast.makeText(this, "WhatsApp não está instalado", Toast.LENGTH_SHORT).show()
 
                 try {

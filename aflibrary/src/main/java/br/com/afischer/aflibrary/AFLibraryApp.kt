@@ -3,7 +3,7 @@ package br.com.afischer.aflibrary
 import android.app.Application
 
 
-object AFApp {
+object AFLibraryApp {
         
         private lateinit var instance: Application
         
