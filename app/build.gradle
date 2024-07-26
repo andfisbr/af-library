@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-        namespace "br.com.afischer.mylibrary"
+        namespace "br.com.afischer.aflibrary"
         compileSdk 34
         
         defaultConfig {
-                applicationId "br.com.afischer.mylibrary"
+                applicationId "br.com.afischer.aflibrary"
                 minSdk 26
                 targetSdk 34
                 versionCode 1
