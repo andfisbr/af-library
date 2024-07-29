@@ -19,6 +19,7 @@
                 android:layout_marginTop="24dp"
                 android:padding="16dp"
                 android:src="@drawable/ic_close"
+                android:visibility="gone"
                 app:tint="@color/grey_400"
                 />
         
