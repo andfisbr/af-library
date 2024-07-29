@@ -45,8 +45,6 @@ dependencies {
         api "com.karumi:dexter:6.2.3"
         api "com.tapadoo.android:alerter:7.0.1"
 
-        api "org.jetbrains.anko:anko:0.10.8"
-        
         implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2"
         implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
         implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0"
