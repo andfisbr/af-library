@@ -28,6 +28,9 @@ import javax.crypto.Cipher
 val Context.activityManager: ActivityManager
         get() = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
+inline val Context.layoutInflater: android.view.LayoutInflater
+        get() = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as android.view.LayoutInflater
+
 val Context.notificationManager: NotificationManager
         get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -183,7 +186,6 @@ inline fun <reified T : Any> Context.launchActivity(options: Bundle? = null, noi
 
 inline fun <reified T : Any> Context.newIntent(): Intent =
         Intent(this, T::class.java)
-
 
 
 fun Context.share(message: String = "") {
