@@ -51,7 +51,7 @@ class ChronometerTextView @JvmOverloads constructor(
         
 
         interface OnChronometerTickListener {
-                fun onChronometerTick(chronometerTextView: ChronometerTextView)
+                fun onChronometerTick(timeLapsed: Long)
         }
 
 
@@ -158,7 +158,7 @@ class ChronometerTextView @JvmOverloads constructor(
                         return
                 }
 
-                onChronometerTickListener!!.onChronometerTick(this@ChronometerTextView)
+                onChronometerTickListener!!.onChronometerTick(this.timeElapsed)
         }
         
         companion object {
