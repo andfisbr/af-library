@@ -1,10 +1,11 @@
 package br.com.afischer.aflibrary.extensions
 
 
+import android.content.res.Resources
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
@@ -64,7 +65,14 @@ fun Float.asCoin(locale: Locale = Locale.getDefault()): String {
         return df.format(this).replace(cc, "")
 }
 
+fun Float.pxToDp(): Float {
+        val metrics = Resources.getSystem().displayMetrics
+        return this * (metrics.densityDpi / 160f)
+}
+fun Float.dpToPx(): Float = this * (Resources.getSystem().displayMetrics.xdpi/ 160f)
 
+fun Float.dp(): Float = this.dpToPx()
+fun Float.px(): Float = this.pxToDp()
 
 
 

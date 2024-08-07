@@ -7,17 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
-import com.github.florent37.viewanimator.AnimationBuilder
-import com.github.florent37.viewanimator.ViewAnimator
-
-
-
-fun View.animateWithAlpha(start: Float, end: Float, duration: Long = 700) {
-        ViewAnimator.animate(this)
-                .alpha(start, end)
-                .duration(duration)
-                .start()
-}
 
 
 fun View.asRect(): Rect {
@@ -30,9 +19,6 @@ fun View.asRect(): Rect {
 }
 
 
-fun View.doAnimation(block: AnimationBuilder.() -> Unit) {
-        ViewAnimator.animate(this).apply(block)
-}
 
 
 val View.hasNotch: Boolean
@@ -48,16 +34,6 @@ fun View.hide(gone: Boolean = true): View {
 }
 
 
-fun View.hideAnimated(duration: Long = 400, vararg y: Float = floatArrayOf(0f, 1000f)) {
-        if (this.isShown) {
-                ViewAnimator.animate(this)
-                        .translationY(*y)
-                        .alpha(1f, 0f)
-                        .duration(duration)
-                        .onStop { this.hide() }
-                        .start()
-        }
-}
 
 fun View.hideIf(condition: Boolean, gone: Boolean = true) {
         if (condition) {
@@ -68,16 +44,6 @@ fun View.hideIf(condition: Boolean, gone: Boolean = true) {
 }
 
 
-fun View.hideWithAnimation(duration: Long = 700) {
-        if (this.isShown) {
-                ViewAnimator.animate(this)
-                        .alpha(1f, 0f)
-                        .translationY(0f, 1000f)
-                        .duration(duration)
-                        .onStop { this.hide() }
-                        .start()
-        }
-}
 
 
 inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
@@ -101,43 +67,11 @@ fun View.show(): View {
 }
 
 
-fun View.showAnimated(body: AnimationBuilder.() -> Unit) {
-        ViewAnimator.animate(this).apply {
-                body()
-                onStart { this@showAnimated.show() }
-                start()
-        }
-}
-
-
-fun View.showAnimated(duration: Long = 400, vararg y: Float = floatArrayOf(1000f, 0f)) {
-        ViewAnimator.animate(this)
-                .translationY(*y)
-                .alpha(0f, 1f)
-                .duration(duration)
-                .onStart { this.show() }
-                .start()
-}
-
-
 fun View.showIf(condition: Boolean = true, gone: Boolean = true) {
         if (condition) {
                 this.show()
         } else {
                 this.hide(gone)
-        }
-}
-
-
-fun View.showWithAnimation(duration: Long = 700) {
-        if (!this.isShown) {
-                ViewAnimator.animate(this)
-                        .alpha(0f, 1f)
-                        .translationY(1000f, 0f)
-                        .duration(duration)
-                        .onStart { this.show() }
-                        .decelerate()
-                        .start()
         }
 }
 
@@ -149,11 +83,6 @@ fun View.toggle(gone: Boolean = true) {
         } else {
                 this.show()
         }
-}
-
-
-fun ViewGroup.doAnimation(block: AnimationBuilder.() -> Unit) {
-        ViewAnimator.animate(this).apply(block)
 }
 
 

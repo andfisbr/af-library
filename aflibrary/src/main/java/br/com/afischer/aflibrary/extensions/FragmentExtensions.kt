@@ -4,6 +4,9 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import br.com.afischer.aflibrary.enums.AlerterType
+import com.tapadoo.alerter.Alert
+import com.tapadoo.alerter.Alerter
 import javax.crypto.Cipher
 
 
@@ -46,4 +49,14 @@ fun Fragment.callBiometricChecker(
         }
 
         prompt.authenticate(promptInfo)
+}
+
+
+
+fun Fragment.alerter(type: AlerterType = AlerterType.NORMAL, duration: Long = 3000L, body: Alerter.() -> Unit): Alert? {
+        return requireActivity().alerter(
+                type,
+                duration,
+                body
+        )
 }

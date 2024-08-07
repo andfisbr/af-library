@@ -45,7 +45,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tapadoo.alerter.Alert
 import com.tapadoo.alerter.Alerter
 
-
 inline val Activity.displaySizePixels: Point
         get() {
                 val display = this.windowManager.defaultDisplay
@@ -114,7 +113,12 @@ fun Activity.alerter(type: AlerterType = AlerterType.NORMAL, duration: Long = 30
                                 setBackgroundColorRes(R.color.orange_500)
                         }
 
-                        else -> setBackgroundColorRes(R.color.teal_500)
+                        AlerterType.INFORMATION -> {
+                                setTitle("INFORMATION")
+                                setBackgroundColorRes(R.color.blue_700)
+                        }
+
+                        else -> setBackgroundColorRes(R.color.green_700)
                 }
                 setDismissable(true)
                 enableIconPulse(true)

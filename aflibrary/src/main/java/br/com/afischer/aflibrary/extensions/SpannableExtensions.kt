@@ -4,8 +4,20 @@ package br.com.afischer.aflibrary.extensions
 import android.graphics.Color
 import android.graphics.Typeface.BOLD
 import android.graphics.Typeface.ITALIC
-import android.text.*
-import android.text.style.*
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
+import android.text.style.SubscriptSpan
+import android.text.style.SuperscriptSpan
+import android.text.style.URLSpan
+import android.text.style.UnderlineSpan
 import java.util.regex.Pattern
 
 

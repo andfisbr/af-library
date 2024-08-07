@@ -1,125 +1,21 @@
 package br.com.afischer.aflibrary.extensions
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.widget.TextView
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 
 
-fun Any.toJson(): String = Gson().toJson(this)
-inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object: TypeToken<T>() {}.type)!!
-fun Any.toPrettyJson(): String {
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        return gson.toJson(this)
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T: Any, R> T.getPrivateProperty(name: String): R? =
+        T::class.java.getDeclaredField(name).apply { isAccessible = true }.get(this) as? R
 
-}
-
-
-
-val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-        encodeDefaults = true
-        isLenient = true
-}
-
-@ExperimentalSerializationApi
-inline fun <reified T> String.objectfy(): T? {
-        this.ifEmpty { return null }
-
-        return try {
-                json.decodeFromString<T>(this)
-        } catch (ex: Exception) {
-                null
-        }
-}
-
-@ExperimentalSerializationApi
-inline fun <reified T> T?.stringfy(): String {
-        this ?: return ""
-
-        return try {
-                json.encodeToString(this)
-        } catch (ex: Exception) {
-                ""
-        }
-}
-
-
-
-
-/**
- * json extensions
- */
-fun JSONObject.toMap(): MutableMap<String, Any?>? {
-        var retMap = mutableMapOf<String, Any?>()
-
-        if (this !== JSONObject.NULL) {
-                retMap = this.map()
-        }
-
-        return retMap
-}
-
-private fun JSONObject.map(): MutableMap<String, Any?> {
-        val map = mutableMapOf<String, Any?>()
-
-        val keysItr = this.keys()
-        while(keysItr.hasNext()) {
-                val key = keysItr.next()
-                var value: Any? = null
-
-                try {
-                        value = this.get(key)
-                } catch(ignored: JSONException) {
-                }
-
-                if (value is JSONArray) {
-                        value = value.list()
-                } else if(value is JSONObject) {
-                        value = value.map()
-                }
-
-                map[key] = value
-        }
-
-        return map
-}
-
-private fun JSONArray.list(): MutableList<Any?> {
-        val list = ArrayList<Any?>()
-
-        (0 until this.length()).forEach {
-                var value: Any? = null
-
-                try {
-                        value = this.get(it)
-                } catch(ignored: JSONException) {
-                }
-
-                if (value is JSONArray) {
-                        value = value.list()
-                } else if(value is JSONObject) {
-                        value = value.map()
-                }
-
-                list.add(value)
-        }
-
-        return list
-}
 
 
 
@@ -131,10 +27,23 @@ fun Bitmap.dominantColor(): Int {
         return color
 }
 
+fun Drawable.asBitmap(): Bitmap? {
+        if (this is BitmapDrawable) {
+                return this.bitmap
+        }
 
+        val bitmap = if (this.intrinsicWidth <= 0 || this.intrinsicHeight <= 0) {
+                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        } else {
+                Bitmap.createBitmap(this.intrinsicWidth, this.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
 
-fun Boolean.no(): Boolean = !this
+        val canvas = Canvas(bitmap)
+        this.setBounds(0, 0, canvas.width, canvas.height)
+        this.draw(canvas)
 
+        return bitmap
+}
 
 
 fun TextView.linkfy(links: MutableList<String>, clickableSpans: MutableList<ClickableSpan>) {
@@ -155,3 +64,36 @@ fun TextView.linkfy(links: MutableList<String>, clickableSpans: MutableList<Clic
         this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
 
+
+
+fun typeCheck(value: Any?) = when (value) {
+        null -> "null"
+        is String -> if (value.matches("""^\{.*\}$""".toRegex())) {
+                value
+        } else {
+                "\"$value\""
+        }
+        is Number,
+        is Boolean -> value
+        is Map<*, *> -> (value as Map<String, Any?>).stringfy()
+        is Collection<*> -> (value as Collection<Any?>).stringfy()
+        is Array<*> -> (value as Array<Any?>).stringfy()
+        is Char -> "\"$value\""
+        is Enum<*> -> "\"$value\""
+        is Pair<*, *> -> {
+                val pair = mapOf(
+                        "first" to value.first,
+                        "second" to value.second
+                )
+                pair.stringfy()
+        }
+        is Triple<*, *, *> -> {
+                val triple = mapOf(
+                        "first" to value.first,
+                        "second" to value.second,
+                        "third" to value.third
+                )
+                triple.stringfy()
+        }
+        else -> throw IllegalArgumentException("Unsupported type: ${value.javaClass}")
+}

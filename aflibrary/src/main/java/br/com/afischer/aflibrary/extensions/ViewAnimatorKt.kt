@@ -1,8 +1,7 @@
 package br.com.afischer.aflibrary.extensions
 
-import android.view.*
-import com.github.florent37.viewanimator.*
-
+import android.view.View
+import com.github.florent37.viewanimator.ViewAnimator
 
 
 class ViewAnimatorKt(view: View) {

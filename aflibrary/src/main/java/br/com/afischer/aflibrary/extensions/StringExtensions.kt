@@ -1,13 +1,15 @@
 package br.com.afischer.aflibrary.extensions
 
 
-import android.text.*
+import android.graphics.Color
+import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextUtils
 import android.util.Base64
 import br.com.afischer.aflibrary.AFLibraryApp
 import br.com.afischer.aflibrary.utils.Consts
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -19,9 +21,18 @@ import java.security.NoSuchAlgorithmException
 import java.text.DecimalFormatSymbols
 import java.text.Normalizer
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import java.util.zip.Deflater
 import java.util.zip.Inflater
+
+fun String.asColor(): Int {
+        return Color.parseColor(this)
+}
+
+fun String.colorify(): Int {
+        return Color.parseColor(this)
+}
 
 
 fun String.openUrl(): String {
@@ -499,17 +510,63 @@ fun String.decompress(): String? {
 }
 
 
+val String?.isString: Boolean
+        get() = this?.matches("\"[^\"]*$\"".toRegex()) == true
 
-fun String.isJSON(): Boolean {
-        try {
-                JSONObject(this)
+val String?.isNumber: Boolean
+        get() = this?.matches("""^[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$""".toRegex()) == true
 
-        } catch (ex1: JSONException) {
-                try {
-                        JSONArray(this)
-                } catch (ex2: JSONException) {
-                        return false
-                }
+val String?.isBoolean: Boolean
+        get() = this?.matches("""^(true|false)$""".toRegex()) == true
+
+
+fun String.asContrastColor(): Int {
+        val colorInt = Color.parseColor(this)
+
+        val r = (colorInt shr 16) and 0xFF
+        val g = (colorInt shr 8) and 0xFF
+        val b = (colorInt) and 0xFF
+
+        val luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+        return if (luminance < 128) {
+                "#FFFFFF".colorify()
+        } else {
+                "#000000".colorify()
         }
-        return true
+}
+
+fun toDate(startDate: String, endDate: String): Array<Long> {
+        val yyyy = Date().today.year()
+        val MM = Date().today.month()
+        val dd = Date().today.day()
+
+        val thisTime = startDate.replace("[^\\d:]".toRegex(), "")
+        val thisTimeF = "$yyyy-${MM.pad("<00")}-$dd $thisTime:00.000" //Added to string to make HH:mm:ss.SSS format
+        val thisTimeValue = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Consts.ptBR).parse(thisTimeF)!!.time
+
+        val thatTime = endDate.replace("[^\\d:]".toRegex(), "")
+        val thatTimeF = "$yyyy-${MM.pad("<00")}-$dd $thatTime:00.000" //Added to string to make HH:mm:ss.SSS format
+        val thatTimeValue = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Consts.ptBR).parse(thatTimeF)!!.time
+
+        return arrayOf(thisTimeValue, thatTimeValue)
+}
+
+
+fun String.isNearTo(hour: String, before: Int = 0, after: Int = 0): Boolean {
+        val (thisTimeValue, thatTimeValue) = toDate(this, hour)
+
+        val thatTimeStart = thatTimeValue - before
+        val thatTimeEnd = thatTimeValue + after
+
+        return thisTimeValue in thatTimeStart..thatTimeEnd
+}
+
+fun String.isBeforeTo(hour: String): Boolean {
+        val (thisTimeValue, thatTimeValue) = toDate(this, hour)
+        return thisTimeValue < thatTimeValue
+}
+fun String.isAfterTo(hour: String): Boolean {
+        val (thisTimeValue, thatTimeValue) = toDate(this, hour)
+        return thisTimeValue > thatTimeValue
 }
