@@ -55,6 +55,7 @@ class Progress(val context: Context) {
                 //
                 // inicia chronometer e o mostra se necessario
                 //
+                /*
                 binding.chronometer.start()
                 binding.chronometer.onChronometerTickListener = object: ChronometerTextView.OnChronometerTickListener {
                         override fun onChronometerTick(timeLapsed: Long) {
@@ -65,6 +66,7 @@ class Progress(val context: Context) {
                                 }
                         }
                 }
+                 */
 
 
                 if (!binding.container.isShown) {
@@ -90,8 +92,10 @@ class Progress(val context: Context) {
                 //
                 binding.message.text = ""
                 binding.container.hide()
+                /*
                 binding.chronometer.stop()
                 binding.chronometer.hide()
+                 */
 
                 context.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
