@@ -2,13 +2,19 @@ package br.com.afischer.aflibrary.extensions
 
 
 import android.content.res.Resources
+import android.text.format.DateFormat
+import br.com.afischer.aflibrary.utils.Consts
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
+/**
+ * double extensions
+ */
 fun Double.asCurrency(symbol: String, groupPattern: String): String {
         return "$symbol ${DecimalFormat(groupPattern, DecimalFormatSymbols(Locale.getDefault())).format(this)}"
 }
@@ -17,30 +23,19 @@ fun Double.asNumber(groupPattern: String): String {
         return DecimalFormat(groupPattern, DecimalFormatSymbols(Locale.getDefault())).format(this)
 }
 
-fun Int.asNumber(groupPattern: String): String {
-        return DecimalFormat(groupPattern, DecimalFormatSymbols(Locale.getDefault())).format(this)
-}
-
-fun Long.asNumber(groupPattern: String): String {
-        return DecimalFormat(groupPattern, DecimalFormatSymbols(Locale.getDefault())).format(this)
-}
-
-
-
-/**
- * double extensions
- */
 fun Double.asCoin(locale: Locale = Locale.getDefault()): String {
         val df = DecimalFormat.getCurrencyInstance(locale)
         val cc = df.currency?.currencyCode ?: ""
         return df.format(this).replace(cc, "")
 }
+
 fun Double.asPercentage(decimals: Int = 2): String {
         val fmt = NumberFormat.getPercentInstance(Locale.getDefault()).apply {
                 minimumFractionDigits = decimals
         }
         return fmt.format(this)
 }
+
 fun Double.videoTimeFormat(): String {
         val aux = this.toString().split(".")
         val millis = aux[1].take(3).padEnd(3, '0').toInt()
@@ -75,6 +70,18 @@ fun Float.dp(): Float = this.dpToPx()
 fun Float.px(): Float = this.pxToDp()
 
 
+
+
+
+fun Long.asNumber(groupPattern: String): String {
+        return DecimalFormat(groupPattern, DecimalFormatSymbols(Locale.getDefault())).format(this)
+}
+
+fun Long.asDateString(format: String = Consts.DATE_FORMAT): String = DateFormat.format( format, this ).toString()
+
+fun Long.asDate(format: String = Consts.DATE_FORMAT): Date = DateFormat.format( format, this ).toString().asDate(format)
+
+fun Long.asFullDate(format: String = Consts.FULL_DATE_FORMAT): Date = this.asDate(format)
 
 
 fun Long.humanReadableBytes(locale: Locale = Locale.getDefault(), showUnit: Boolean = true) = when {
@@ -129,8 +136,11 @@ fun Long.humanReadableTime(): String {
 }
 
 
-fun Int.humanReadableTime() = this.toLong().humanReadableTime()
+fun Int.asNumber(groupPattern: String): String {
+        return DecimalFormat(groupPattern, DecimalFormatSymbols(Locale.getDefault())).format(this)
+}
 
+fun Int.humanReadableTime() = this.toLong().humanReadableTime()
 
 fun Int.humanReadableBytes(locale: Locale = Locale.getDefault(), showUnit: Boolean = true) =
         this.toLong().humanReadableBytes(locale, showUnit)

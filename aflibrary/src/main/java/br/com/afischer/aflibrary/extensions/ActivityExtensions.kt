@@ -105,20 +105,35 @@ fun Activity.alerter(type: AlerterType = AlerterType.NORMAL, duration: Long = 30
                 when (type) {
                         AlerterType.EXCEPTION -> {
                                 setTitle("EXCEPTION")
+                                setIcon(R.drawable.ic_exception)
+                                setBackgroundColorRes(R.color.red_900)
+                        }
+
+                        AlerterType.ERROR -> {
+                                setTitle("ERROR")
+                                setIcon(R.drawable.ic_error)
                                 setBackgroundColorRes(R.color.red_900)
                         }
 
                         AlerterType.WARNING -> {
                                 setTitle("WARNING")
+                                setIcon(R.drawable.ic_warning)
                                 setBackgroundColorRes(R.color.orange_500)
                         }
 
                         AlerterType.INFORMATION -> {
                                 setTitle("INFORMATION")
+                                setIcon(R.drawable.ic_information)
                                 setBackgroundColorRes(R.color.blue_700)
                         }
 
-                        else -> setBackgroundColorRes(R.color.green_700)
+                        AlerterType.SUCCESS -> {
+                                setTitle("SUCCESS")
+                                setIcon(R.drawable.ic_success)
+                                setBackgroundColorRes(R.color.green_700)
+                        }
+
+                        else -> setBackgroundColorRes(R.color.grey_700)
                 }
                 setDismissable(true)
                 enableIconPulse(true)

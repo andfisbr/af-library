@@ -35,7 +35,7 @@ fun String.colorify(): Int {
 }
 
 
-fun String.openUrl(): String {
+fun String.openUrl(defaultResult: String = ""): String {
         val url = URL(this)
         val connection = url.openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
@@ -58,6 +58,9 @@ fun String.openUrl(): String {
                 } else {
                         return "HTTP request failed. Response code: $responseCode"
                 }
+
+        } catch (ex: Exception) {
+                return defaultResult
 
         } finally {
                 connection.disconnect()
