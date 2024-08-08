@@ -18,6 +18,7 @@ fun Any.toPrettyJson(): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
         return gson.toJson(this)
 }
+inline fun <reified T> String.fromJson() = Gson().fromJson<T>(this)
 
 
 
