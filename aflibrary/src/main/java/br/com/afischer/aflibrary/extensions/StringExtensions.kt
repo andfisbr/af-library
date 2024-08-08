@@ -344,8 +344,8 @@ fun String.nullToEmpty(): String = if (this == "null") {
 }
 
 
-
-
+fun String.strong(): Spanned =
+        "<strong>$this</strong>".asHtml()
 
 
 

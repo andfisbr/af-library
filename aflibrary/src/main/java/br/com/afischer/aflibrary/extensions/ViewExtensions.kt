@@ -1,12 +1,26 @@
 package br.com.afischer.aflibrary.extensions
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.DrawableCompat
+import br.com.afischer.aflibrary.AFLibraryApp
+import br.com.afischer.aflibrary.R
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import jp.wasabeef.blurry.Blurry
 
 
 fun View.asRect(): Rect {
@@ -89,3 +103,104 @@ fun View.toggle(gone: Boolean = true) {
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
         LayoutInflater.from(this.context).inflate(layoutRes, this, attachToRoot)
 
+
+
+
+
+
+
+
+inline fun View.waitForLayout(crossinline listener: () -> Unit) {
+        val vto = viewTreeObserver
+        vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                        when {
+                                vto.isAlive -> {
+                                        vto.removeOnGlobalLayoutListener(this)
+                                        listener()
+                                }
+                                else -> viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        }
+                }
+        })
+}
+
+
+inline fun <T: View> T.afterMeasured(crossinline f: T.() -> Unit) {
+        viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                        if (measuredWidth > 0 && measuredHeight > 0) {
+                                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                                f()
+                        }
+                }
+        })
+}
+
+
+
+fun ImageView.loadUrl(uri: Uri, placeholder: Int = R.drawable.ic_question, onSuccessListener: () -> Unit = {}, onErrorListener: () -> Unit = {}): ImageView {
+        try {
+                Picasso.get()
+                        .load(uri)
+                        .placeholder(placeholder)
+                        .into(this, object: Callback {
+                                override fun onSuccess() {
+                                        onSuccessListener()
+                                }
+                                override fun onError(e: java.lang.Exception?) {
+                                        setImageResource(placeholder)
+                                        onErrorListener()
+                                }
+                        })
+
+        } catch (ex: Exception) {
+                setImageResource(placeholder)
+                onErrorListener()
+        }
+
+        return this
+}
+
+fun ImageView.loadUrl(uri: String, placeholder: Int = R.drawable.ic_question, onSuccessListener: () -> Unit = {}, onErrorListener: () -> Unit = {}): ImageView {
+        return this.loadUrl(Uri.parse(uri), placeholder, onSuccessListener, onErrorListener)
+}
+
+
+fun ImageView.blur(from: Drawable?): ImageView {
+        if (from == null) {
+                return this
+        }
+
+        val bitmap = if (from is VectorDrawable) {
+                from.getBitmap()
+        } else {
+                (from as BitmapDrawable).bitmap
+        }
+
+        Blurry.with(AFLibraryApp())
+                .from(bitmap)
+                .into(this)
+
+        return this
+}
+fun ImageView.blur(from: ImageView): ImageView {
+        return this.blur(from.drawable)
+}
+
+
+fun VectorDrawable.getBitmap(): Bitmap {
+        val drawable = DrawableCompat.wrap(this).mutate()
+
+        val bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+
+        return bitmap
+}

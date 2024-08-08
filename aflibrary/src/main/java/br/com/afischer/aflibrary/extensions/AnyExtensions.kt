@@ -97,3 +97,8 @@ fun typeCheck(value: Any?) = when (value) {
         }
         else -> throw IllegalArgumentException("Unsupported type: ${value.javaClass}")
 }
+
+
+
+
+
