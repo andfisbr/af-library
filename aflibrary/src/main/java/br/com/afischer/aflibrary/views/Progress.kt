@@ -55,18 +55,16 @@ class Progress(val context: Context) {
                 //
                 // inicia chronometer e o mostra se necessario
                 //
-                /*
                 binding.chronometer.start()
                 binding.chronometer.onChronometerTickListener = object: ChronometerTextView.OnChronometerTickListener {
                         override fun onChronometerTick(timeLapsed: Long) {
                                 if (timeLapsed > 10000 && !binding.chronometer.isShown) {
                                         binding.chronometer.alpha = 0f
                                         binding.chronometer.show()
-                                        binding.chronometer.animateWithAlpha(0f, 1f, 500)
+                                        binding.chronometer.animateWithAlpha(0f, 1f, 700)
                                 }
                         }
                 }
-                 */
 
 
                 if (!binding.container.isShown) {
@@ -92,10 +90,8 @@ class Progress(val context: Context) {
                 //
                 binding.message.text = ""
                 binding.container.hide()
-                /*
                 binding.chronometer.stop()
                 binding.chronometer.hide()
-                 */
 
                 context.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 

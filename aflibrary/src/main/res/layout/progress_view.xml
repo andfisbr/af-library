@@ -43,19 +43,19 @@
                 tools:text="message"
                 />
         
-<!--        <br.com.afischer.aflibrary.views.ChronometerTextView-->
-<!--                android:id="@+id/chronometer"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_marginBottom="@dimen/_36sdp"-->
-<!--                android:gravity="center"-->
-<!--                android:text="0:00,0"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="@dimen/_10ssp"-->
-<!--                android:visibility="gone"-->
-<!--                />-->
+        <br.com.afischer.aflibrary.views.ChronometerTextView
+                android:id="@+id/chronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/_46sdp"
+                android:gravity="center"
+                android:text="0:00,0"
+                android:textColor="@color/grey_300"
+                android:textSize="@dimen/_10ssp"
+                android:visibility="gone"
+                />
 </RelativeLayout>
 
 
